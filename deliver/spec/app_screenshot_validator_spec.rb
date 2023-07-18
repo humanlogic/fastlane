@@ -40,7 +40,6 @@ describe Deliver::AppScreenshotValidator do
 
     it 'should detect unacceptable screen size' do
       expect_errors_to_include(app_screenshot_with('Unknown device'), Error::UNACCEPTABLE_DEVICE)
-      expect_errors_to_include(app_screenshot_with(ScreenSize::IOS_61), Error::UNACCEPTABLE_DEVICE)
     end
 
     it 'should detect invalid file extension' do
@@ -57,7 +56,7 @@ describe Deliver::AppScreenshotValidator do
   describe '.validate_device_type' do
     it 'should give a validation error to skip uploading screenshot' do
       errors_found = []
-      described_class.validate(app_screenshot_with(ScreenSize::IOS_61), errors_found)
+      described_class.validate(app_screenshot_with('Unknown device'), errors_found)
       error = errors_found.find { |e| e.type == Error::UNACCEPTABLE_DEVICE }
       expect(error.to_skip).to be(true)
     end
